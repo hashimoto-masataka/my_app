@@ -1,4 +1,6 @@
-state/
+state/*
+!state/.gitkeep
+!state/account.json
 logs/
 data/daily/
 __pycache__/
