@@ -1,0 +1,117 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>kabu-auto 案C</title><style>
+:root{--bg:#f4f6f9;--panel:#fff;--ink:#17202b;--sub:#5a6676;--line:#dde2e9;--accent:#1d64d8;--accent-ink:#fff;--soft:#eaf1fd;
+--pos:#0b7a4b;--pos-bg:#e0f3ea;--neg:#c2410c;--neg-bg:#fdebdd;--warn-bg:#fff2cc;--warn-ink:#6b4a00;--bad-bg:#fde3df;--bad-ink:#8a1c10;--c1:#17202b;--c2:#1d64d8;--c3:#d97706}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e131a;--panel:#161d27;--ink:#e8ecf2;--sub:#9aa6b6;--line:#283241;--accent:#5b9dff;--accent-ink:#0a1220;--soft:#18273d;
+--pos:#4cc38a;--pos-bg:#12332a;--neg:#f59e6b;--neg-bg:#3b2414;--warn-bg:#3a2e0d;--warn-ink:#f6d98b;--bad-bg:#3d1a16;--bad-ink:#ffb4a8;--c1:#e8ecf2;--c2:#5b9dff;--c3:#f0a34a}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Yu Gothic UI","Hiragino Sans","Meiryo",system-ui,sans-serif}
+button{font:inherit;min-height:44px;padding:8px 18px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+button:disabled{opacity:.45;cursor:not-allowed}
+select,input[type=text]{font:inherit;min-height:44px;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:16px;margin:0 0 8px}
+.sub{color:var(--sub);font-size:14px}.pos{color:var(--pos)}.neg{color:var(--neg)}
+.tag{display:inline-block;font-size:14px;font-weight:600;padding:2px 12px;border-radius:999px;background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+.tag.buy{background:var(--pos-bg);color:var(--pos);border-color:transparent}.tag.sell{background:var(--neg-bg);color:var(--neg);border-color:transparent}
+.tag.bad{background:var(--bad-bg);color:var(--bad-ink);border-color:transparent}.tag.ok{background:var(--pos-bg);color:var(--pos);border-color:transparent}.tag.warn{background:var(--warn-bg);color:var(--warn-ink);border-color:transparent}
+.badge-paper{background:var(--pos-bg);color:var(--pos);padding:3px 14px;border-radius:999px;font-weight:700;font-size:14px}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--sub);font-weight:600;font-size:13px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+svg{width:100%;height:auto;display:block}
+pre{margin:8px 0 0;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font:13px/1.6 ui-monospace,Consolas,monospace;white-space:pre-wrap;max-height:260px;overflow:auto}
+.notice{padding:12px 16px;border-radius:12px;font-size:15px}.notice.warn{background:var(--warn-bg);color:var(--warn-ink)}.notice.bad{background:var(--bad-bg);color:var(--bad-ink)}
+.demo{position:fixed;right:10px;bottom:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 10px;font-size:12px;color:var(--sub);z-index:9}
+@media (max-width:640px){body{font-size:16px}.card{padding:14px}}
+
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 20px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.bar b{font-size:18px}.chip{display:flex;flex-direction:column;line-height:1.3;padding:0 14px;border-left:1px solid var(--line)}.chip .k{font-size:12px;color:var(--sub)}.chip .v{font-size:18px;font-weight:800}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;padding:16px 20px;max-width:1240px;margin:0 auto}
+.list{display:grid;gap:10px;align-content:start}
+.item{display:block;width:100%;text-align:left;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:var(--panel);min-height:0;cursor:pointer}
+.item.on{border-color:var(--accent);background:var(--soft)}
+.item .r1{display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:800}.item .r2{display:flex;justify-content:space-between;color:var(--sub);font-size:14px;margin-top:2px}
+.detail{display:grid;gap:16px;min-width:0;align-content:start}
+.dh{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}.dh .big{font-size:32px;font-weight:800}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.mini .card{padding:14px 16px}.mini .k{font-size:13px;color:var(--sub)}.mini .v{font-size:20px;font-weight:800}
+.drawer{max-width:1240px;margin:0 auto;padding:0 20px 90px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;padding:12px 0;min-height:44px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.dock{position:fixed;left:0;right:0;bottom:0;background:var(--panel);border-top:1px solid var(--line);padding:10px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:6}
+.dock .msg{flex:1;min-width:180px;color:var(--sub);font-size:14px}
+@media (max-width:860px){.layout{grid-template-columns:1fr;padding:12px}.list{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.bar{padding:10px 12px}.drawer{padding:0 12px 100px}}
+</style></head><body><div class="bar"><b>kabu-auto</b><span class="badge-paper">ペーパー</span>
+<div class="chip"><span class="k">累積損益</span><span class="v pos">+12,400円</span></div><div class="chip"><span class="k">含み損益</span><span class="v neg">-77,738円</span></div><div class="chip"><span class="k">保有 / 待ち</span><span class="v">1 / 1</span></div>
+<span style="flex:1"></span><span class="sub">2026-09-19(土)休場日</span><button style="min-height:40px">更新</button></div>
+<div style="max-width:1240px;margin:12px auto 0;padding:0 20px;display:grid;gap:8px"><div class="notice warn">2026-09-16 の判定ができていません(8306)。下の「実行」から、手元のデータで判定だけ実行してください。</div></div>
+<div class="layout"><div class="list" id="list"></div>
+<div class="detail"><div class="card"><div class="dh"><span class="big" id="dcode"></span><span id="dtags"></span><span class="sub" id="dnote"></span></div><div id="chart" style="margin-top:8px"></div></div>
+<div class="mini" id="mini"></div></div></div>
+<div class="drawer"><details><summary>保有と注文(保有1件・待ち1件・要確認1件)</summary><h3>保有中</h3><div id="t-pos"></div><h3 style="margin-top:14px">明日以降の注文(待ち)</h3><div id="t-pend"></div><h3 style="margin-top:14px">約定扱いにしなかった注文(要確認)</h3><div id="t-unf"></div></details>
+<details><summary>累積損益の推移</summary><div id="eq"></div></details>
+<details><summary>検証とデータ取り込み</summary><div class="row"><label>銘柄 <select id="btc"></select></label><label><input type="checkbox" checked> walk-forward</label><label><input type="checkbox"> 総当たり</label><button class="primary" data-act="バックテスト">バックテスト</button><button data-act="データの点検">データの点検</button></div>
+<hr style="border:0;border-top:1px solid var(--line)"><div class="row"><label>CSV取り込み 銘柄 <input type="text" size="6" placeholder="7203"></label><input type="file"><button>取り込む</button></div><div class="sub" id="jst">まだ何も実行していません。</div><pre id="jout" hidden></pre></details>
+<details><summary>設定とログ</summary><div id="t-set"></div><pre id="logp"></pre></details></div>
+<div class="dock"><b>ペーパーの操作</b><button class="primary" data-act="今日の収集と判定">今日の収集と判定</button><button data-act="手元のデータで判定だけ">判定だけ</button><button data-act="朝の確認">朝の確認</button><span class="msg">実発注はこの画面ではできません</span></div>
+<div class="demo">サンプル画面・数字はすべてダミー</div><script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=(n,d=0)=>n==null?'-':Number(n).toLocaleString('ja-JP',{minimumFractionDigits:d,maximumFractionDigits:d});
+const yen=n=>n==null?'-':(n>=0?'+':'-')+num(Math.abs(n))+'円';
+const cls=n=>n>0?'pos':(n<0?'neg':'');
+function rng(seed){let s=seed;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
+function series(seed,start,drift){const r=rng(seed);let p=start;const c=[];for(let i=0;i<270;i++){p=p*(1+drift+(r()-.5)*.03+Math.sin(i/9)*.004);c.push(p)}return c}
+const SYMS=[
+ {code:'7203',close:1722.6,sig:'',pos:'短期が下',state:'OK',rows:444,seed:11,start:2400,drift:-.0015},
+ {code:'6758',close:3726.2,sig:'買い',pos:'短期が上',state:'OK',rows:444,seed:23,start:2700,drift:.0016},
+ {code:'9432',close:103.0,sig:'',pos:'短期が下',state:'段差',jump:'2026-08-03 に前日比 0.52 倍',rows:444,seed:5,start:150,drift:-.001},
+ {code:'8306',close:null,sig:'',pos:'-',state:'なし',rows:0}];
+const D={today:'2026-09-19',cum:12400,unreal:-77738,
+ positions:[{code:'7203',qty:100,date:'2026-08-20',px:2500.0,last:1722.6,u:-77738}],
+ pending:[{date:'2026-09-24',code:'6758',side:'買い',qty:100,why:'2026-09-18 ゴールデンクロス',state:'未送信'}],
+ unfilled:[{date:'2026-09-10',code:'9432',side:'買い',qty:100,why:'発注していない(失敗か、1日の上限超過)'}],
+ equity:[-100,-300,-300,-1800,-2000,900,1500,1200,2400,2700,3600,3600,3000,3000,2200,1800,3000,4200,4200,5400,5200,7100,7000,9800,9600,12000,14000,15900,15400,14300,13200,12000,12900,12500,12400],
+ log:['2026-09-19 13:16:31  --- 2026-09-16 引け後の処理 ---','2026-09-19 13:16:31    新しいシグナルはありません','2026-09-19 13:16:31    [WARN] 8306: 2026-09-16 の終値が無い(データ収集が失敗?)。判定を飛ばします'],
+ bt:['銘柄 7203  2025-01-06 〜 2026-09-17(444 日)','約定: シグナルの翌営業日の寄値 / コスト 片道 10bp','素直 5日/25日: 累積損益 -393.8円(1株)/ 取引 12 回 / 勝率 8.3% / 1取引あたり平均 -1.55%','  税引後(概算): -400.6円 / 税 6.9円(税率 20.315%)'],
+ settings:[['移動平均(短期/長期)','5日 / 25日'],['1回の買いの上限金額','500,000 円'],['1日の発注上限','3 件'],['対象銘柄','4 銘柄'],['バックテストのコスト(片道)','スリッページ 10bp + 手数料 0bp'],['税率(概算表示)','20.315%']]};
+function ma(a,n){return a.map((_,i)=>i+1<n?null:a.slice(i+1-n,i+1).reduce((x,y)=>x+y,0)/n)}
+function chartData(code,n=250){const s=SYMS.find(x=>x.code===code);if(!s||!s.rows)return null;const c=series(s.seed,s.start,s.drift);const ms=ma(c,5),ml=ma(c,25);const sg=[];for(let i=1;i<c.length;i++){if(ms[i-1]==null||ml[i-1]==null)continue;const a=ms[i-1]-ml[i-1],b=ms[i]-ml[i];if(a<=0&&b>0)sg.push({i,s:'買い'});else if(a>=0&&b<0)sg.push({i,s:'売り'})}
+ const st=c.length-n;return{c:c.slice(st),ms:ms.slice(st),ml:ml.slice(st),sg:sg.filter(x=>x.i>=st).map(x=>({i:x.i-st,s:x.s}))}}
+function path(v,x,y){let d='',pen=false;v.forEach((a,i)=>{if(a==null){pen=false;return}d+=(pen?'L':'M')+x(i).toFixed(1)+' '+y(a).toFixed(1)+' ';pen=true});return d}
+function drawChart(el,code,H=300){const d=chartData(code);if(!d){el.innerHTML='<p class="sub">この銘柄のデータがありません。過去データ(CSV)を取り込んでください。</p>';return}
+ const W=900,P={l:56,r:92,t:14,b:28},n=d.c.length;const all=d.c.concat(d.ms,d.ml).filter(v=>v!=null);let lo=Math.min(...all),hi=Math.max(...all);const pd=(hi-lo)*.06;lo-=pd;hi+=pd;
+ const x=i=>P.l+(W-P.l-P.r)*i/(n-1),y=v=>P.t+(H-P.t-P.b)*(1-(v-lo)/(hi-lo));let g='';
+ for(let k=0;k<=4;k++){const v=lo+(hi-lo)*k/4,yy=y(v);g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${yy}" y2="${yy}" stroke="var(--line)"/><text x="${P.l-8}" y="${yy+4}" text-anchor="end" font-size="13" fill="var(--sub)">${num(v,v<200?1:0)}</text>`}
+ g+=`<text x="${P.l}" y="${H-6}" font-size="13" fill="var(--sub)">2025-10-03</text><text x="${W-P.r}" y="${H-6}" text-anchor="end" font-size="13" fill="var(--sub)">2026-09-17</text>`;
+ g+=`<path d="${path(d.c,x,y)}" fill="none" stroke="var(--c1)" stroke-width="1.5" opacity=".7"/><path d="${path(d.ml,x,y)}" fill="none" stroke="var(--c3)" stroke-width="2.6"/><path d="${path(d.ms,x,y)}" fill="none" stroke="var(--c2)" stroke-width="2.6"/>`;
+ d.sg.forEach(s=>{const cx=x(s.i),cy=y(d.c[s.i]);g+=s.s==='買い'?`<path d="M${cx} ${cy+5} l-7 12 h14 z" fill="var(--pos)"/>`:`<path d="M${cx} ${cy-5} l-7 -12 h14 z" fill="var(--neg)"/>`});
+ const L=[[d.ms[n-1],'短期5日','var(--c2)'],[d.ml[n-1],'長期25日','var(--c3)'],[d.c[n-1],'終値','var(--c1)']].map(a=>({y:y(a[0]),t:a[1],c:a[2]})).sort((a,b)=>a.y-b.y);
+ for(let i=1;i<L.length;i++)if(L[i].y-L[i-1].y<20)L[i].y=L[i-1].y+20;
+ L.forEach(l=>{g+=`<text x="${W-P.r+8}" y="${l.y+5}" font-size="14" font-weight="700" fill="${l.c}">${l.t}</text>`});
+ el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${code} のチャート">${g}</svg><p class="sub" style="margin:6px 0 0"><span class="pos">▲</span> 買いシグナル　<span class="neg">▼</span> 売りシグナル　(直近250日)</p>`}
+function drawEquity(el,H=200){const v=D.equity,W=900,P={l:64,r:16,t:12,b:28},n=v.length;let lo=Math.min(0,...v),hi=Math.max(0,...v);const x=i=>P.l+(W-P.l-P.r)*i/(n-1),y=a=>P.t+(H-P.t-P.b)*(1-(a-lo)/(hi-lo));
+ let g=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--sub)" stroke-dasharray="4 3"/><text x="${P.l-8}" y="${y(0)+4}" text-anchor="end" font-size="13" fill="var(--sub)">0</text><text x="${P.l-8}" y="${y(hi)+10}" text-anchor="end" font-size="13" fill="var(--sub)">${num(hi)}</text><text x="${P.l-8}" y="${y(lo)}" text-anchor="end" font-size="13" fill="var(--sub)">${num(lo)}</text>`;
+ g+=`<path d="${path(v,x,y)}" fill="none" stroke="var(--c2)" stroke-width="2.6"/><text x="${P.l}" y="${H-6}" font-size="13" fill="var(--sub)">2026-06-01</text><text x="${W-P.r}" y="${H-6}" text-anchor="end" font-size="13" fill="var(--sub)">2026-09-17</text>`;
+ el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="累積損益の推移">${g}</svg>`}
+const tg=(t,k)=>`<span class="tag ${k||''}">${esc(t)}</span>`;
+const sideTag=s=>tg(s,s==='買い'?'buy':'sell');
+const stateTag=s=>s==='OK'?tg('OK','ok'):s==='段差'?tg('段差あり','bad'):s==='なし'?tg('データなし','bad'):tg(s);
+function tbl(h,rows){return `<div class="scroll"><table><thead><tr>${h.map(x=>`<th class="${x[1]||''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
+function fakeRun(btn,out,stateEl,label,lines){$$('button').forEach(b=>b.dataset.was=b.disabled?1:0);$$('button').forEach(b=>b.disabled=true);stateEl.textContent='実行中…';out.hidden=false;out.textContent='';
+ setTimeout(()=>{out.textContent=lines.join('\n');stateEl.textContent='終了しました(正常): '+label;$$('button').forEach(b=>b.disabled=b.dataset.was==='1')},1600)}
+
+$('#list').innerHTML=SYMS.map(s=>`<button class="item" data-code="${s.code}"><div class="r1"><span>${s.code}</span><span>${s.close?num(s.close,1):'-'}</span></div><div class="r2"><span>${s.sig?sideTag(s.sig):(s.state==='OK'?'シグナルなし':stateTag(s.state))}</span><span>${s.pos}</span></div></button>`).join('');
+function pick(c){const s=SYMS.find(x=>x.code===c);$$('.item').forEach(i=>i.classList.toggle('on',i.dataset.code===c));$('#dcode').textContent=c;$('#dtags').innerHTML=(s.sig?sideTag(s.sig)+' ':'')+stateTag(s.state);$('#dnote').textContent=s.jump?('段差: '+s.jump+'(分割の可能性。確認するまで新しく買いません)'):(s.rows?s.pos:'データがありません。過去データを取り込んでください');drawChart($('#chart'),c,320);
+ const p=D.positions.find(x=>x.code===c),o=D.pending.find(x=>x.code===c);
+ $('#mini').innerHTML=`<div class="card"><div class="k">この銘柄の保有</div><div class="v">${p?p.qty+'株 / '+yen(p.u):'なし'}</div></div><div class="card"><div class="k">待ち注文</div><div class="v">${o?o.date+' '+o.side+' '+o.qty+'株':'なし'}</div></div><div class="card"><div class="k">データ</div><div class="v">${s.rows?s.rows+'行 / 2025-01-06〜2026-09-17':'なし'}</div></div>`}
+pick('6758');$$('.item').forEach(i=>i.onclick=()=>pick(i.dataset.code));
+$('#t-pos').innerHTML=tbl([['銘柄'],['株数','n'],['取得値','n'],['含み損益','n']],D.positions.map(p=>`<tr><td>${p.code}</td><td class="n">${p.qty}</td><td class="n">${num(p.px,1)}</td><td class="n neg">${yen(p.u)}</td></tr>`));
+$('#t-pend').innerHTML=tbl([['日付'],['銘柄'],['売買'],['株数','n'],['状態']],D.pending.map(o=>`<tr><td>${o.date}</td><td>${o.code}</td><td>${sideTag(o.side)}</td><td class="n">${o.qty}</td><td>${tg(o.state)}</td></tr>`));
+$('#t-unf').innerHTML=tbl([['日付'],['銘柄'],['売買'],['理由']],D.unfilled.map(o=>`<tr><td>${o.date}</td><td>${o.code}</td><td>${o.side}</td><td>${o.why}</td></tr>`));
+drawEquity($('#eq'));$('#btc').innerHTML=SYMS.map(s=>`<option>${s.code}(${s.rows}行)</option>`).join('');
+$('#t-set').innerHTML=tbl([['項目'],['値']],D.settings.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`));$('#logp').textContent=D.log.join('\n');
+$$('[data-act]').forEach(b=>b.onclick=()=>{$$('details')[2].open=true;$('#jst').scrollIntoView({behavior:'smooth',block:'center'});fakeRun(b,$('#jout'),$('#jst'),b.dataset.act,D.bt)});
+</script></body></html>

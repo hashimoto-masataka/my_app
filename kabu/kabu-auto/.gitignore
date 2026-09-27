@@ -1,0 +1,11 @@
+# 実行時に生まれるもの・手元だけのもの（配布しない）
+__pycache__/
+*.pyc
+kabu-auto/state/*
+!kabu-auto/state/.gitkeep
+kabu-auto/logs/*
+!kabu-auto/logs/.gitkeep
+kabu-auto/data/daily/*.csv
+kabu-auto/config_local.py
+.env
+*.env

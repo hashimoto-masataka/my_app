@@ -1,0 +1,7 @@
+state/
+logs/
+data/daily/
+__pycache__/
+*.tmp
+config_local.py
+.env

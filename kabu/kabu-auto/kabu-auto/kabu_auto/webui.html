@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kabu-auto</title>
+<style>
+:root {
+  --bg:#f4f6f9; --panel:#ffffff; --ink:#1c2430; --sub:#566171; --line:#d9dee5; --accent:#1f6feb; --accent-ink:#ffffff;
+  --pos:#0a7d4f; --neg:#c2410c; --warn-bg:#fff4d6; --warn-ink:#6b4a00; --bad-bg:#fde4e1; --bad-ink:#8a1c10; --ok-bg:#e2f4ea; --ok-ink:#0b5b3a;
+  --side:#111a26; --side-ink:#c9d3e0; --side-on:#1f6feb;
+  --c1:#1c2430; --c2:#1f6feb; --c3:#d97706;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0f141b; --panel:#171e28; --ink:#e6eaf0; --sub:#9aa5b4; --line:#2a3442; --accent:#5b9dff; --accent-ink:#0b1220;
+    --pos:#4cc38a; --neg:#f59e6b; --warn-bg:#3a2e0d; --warn-ink:#f6d98b; --bad-bg:#3d1a16; --bad-ink:#ffb4a8; --ok-bg:#12332a; --ok-ink:#8fe0b7;
+    --side:#0a0f16; --side-ink:#aab6c6; --side-on:#2f6fd0;
+    --c1:#e6eaf0; --c2:#5b9dff; --c3:#f0a34a;
+  }
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 "Yu Gothic UI","Hiragino Sans","Meiryo",system-ui,sans-serif; }
+.app { display:grid; grid-template-columns:230px minmax(0,1fr); min-height:100vh; }
+nav.side { background:var(--side); color:var(--side-ink); padding:18px 12px; position:sticky; top:0; align-self:start; height:100vh; overflow:auto; }
+nav.side h1 { color:#fff; font-size:19px; margin:0 8px 4px; }
+nav.side .modebadge { margin:0 8px 16px; }
+nav.side a { display:flex; align-items:center; gap:8px; min-height:44px; padding:8px 12px; border-radius:10px; color:var(--side-ink); text-decoration:none; font-size:16px; margin-bottom:4px; }
+nav.side a:hover { background:rgba(255,255,255,.08); }
+nav.side a.on { background:var(--side-on); color:#fff; font-weight:700; }
+nav.side a .n { margin-left:auto; min-width:24px; text-align:center; padding:0 8px; border-radius:999px; background:rgba(255,255,255,.16); font-size:13px; font-weight:700; }
+nav.side a .n.alert { background:#f59e0b; color:#1c1500; }
+nav.side a .n:empty { display:none; }
+.content { padding:18px 22px 40px; min-width:0; max-width:1100px; width:100%; }
+.badge { display:inline-block; padding:2px 12px; border-radius:999px; font-size:13px; font-weight:700; }
+.badge.paper { background:var(--ok-bg); color:var(--ok-ink); }
+.badge.live { background:var(--bad-bg); color:var(--bad-ink); }
+.sub { color:var(--sub); font-size:14px; }
+.hero { border-radius:14px; padding:18px 20px; background:var(--ok-bg); color:var(--ok-ink); border:1px solid transparent; }
+.hero.warn { background:var(--warn-bg); color:var(--warn-ink); }
+.hero.bad { background:var(--bad-bg); color:var(--bad-ink); }
+.hero .lab { font-size:13px; font-weight:700; opacity:.85; }
+.hero .msg { font-size:24px; font-weight:800; line-height:1.4; margin:2px 0 4px; }
+.hero .det { font-size:15px; }
+.hero .row { margin-top:12px; }
+.page { display:none; margin-top:16px; gap:16px; grid-template-columns:minmax(0,1fr); }
+.page.on { display:grid; }
+.page > *, .two > * { min-width:0; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+.card, section { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+.card .k { color:var(--sub); font-size:14px; }
+.card .v { font-size:26px; font-weight:800; }
+section h2 { font-size:17px; margin:0 0 10px; }
+.alerts { display:grid; gap:10px; }
+.al { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; padding:12px 14px; border-radius:10px; background:var(--warn-bg); color:var(--warn-ink); }
+.al.bad { background:var(--bad-bg); color:var(--bad-ink); }
+.al .t { flex:1 1 260px; min-width:0; }
+.al button { background:transparent; color:inherit; border-color:currentColor; font-weight:700; }
+.allclear { padding:12px 14px; border-radius:10px; background:var(--ok-bg); color:var(--ok-ink); font-weight:700; }
+table { width:100%; border-collapse:collapse; font-size:15px; }
+th, td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+th { color:var(--sub); font-weight:700; font-size:13px; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+.scroll { overflow-x:auto; }
+tr.click { cursor:pointer; } tr.click:hover, tr.sel { background:var(--bg); }
+.pos { color:var(--pos); } .neg { color:var(--neg); }
+.tag { font-size:13px; padding:2px 9px; border-radius:6px; background:var(--bg); border:1px solid var(--line); font-weight:700; }
+.tag.buy { background:var(--ok-bg); color:var(--ok-ink); border-color:transparent; }
+.tag.sell { background:var(--warn-bg); color:var(--warn-ink); border-color:transparent; }
+.tag.bad { background:var(--bad-bg); color:var(--bad-ink); border-color:transparent; }
+button { font:inherit; min-height:44px; padding:8px 18px; border-radius:10px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; }
+button.primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:700; }
+.hero button { background:rgba(255,255,255,.55); color:inherit; border-color:currentColor; font-weight:700; }
+.hero button.primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+button:disabled { opacity:.45; cursor:not-allowed; }
+.row { display:flex; flex-wrap:wrap; gap:10px 12px; align-items:center; margin:8px 0; }
+select, input[type=text] { font:inherit; min-height:44px; padding:6px 10px; border-radius:10px; border:1px solid var(--line); background:var(--panel); color:var(--ink); }
+input[type=checkbox] { width:20px; height:20px; vertical-align:middle; }
+pre { margin:8px 0 0; padding:12px 14px; background:var(--bg); border:1px solid var(--line); border-radius:10px; font:13.5px/1.55 ui-monospace,"Cascadia Mono",Consolas,monospace; max-height:340px; overflow:auto; white-space:pre-wrap; word-break:break-all; }
+svg { width:100%; height:auto; display:block; }
+.legend { display:flex; gap:14px; flex-wrap:wrap; font-size:14px; color:var(--sub); margin-top:6px; }
+.legend i { display:inline-block; width:16px; height:3px; vertical-align:middle; margin-right:5px; border-radius:2px; }
+.two { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr)); gap:16px; }
+.empty { color:var(--sub); font-size:15px; }
+#jobBox { margin-top:16px; }
+@media (max-width:820px) {
+  .app { grid-template-columns:minmax(0,1fr); }
+  nav.side { position:static; height:auto; display:flex; flex-wrap:nowrap; overflow-x:auto; gap:6px; padding:10px 12px; align-items:center; }
+  nav.side h1, nav.side .modebadge { display:none; }
+  nav.side a { flex:0 0 auto; margin:0; }
+  .content { padding:12px 12px 32px; }
+  .hero .msg { font-size:20px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="side" id="menu" aria-label="メニュー">
+  <h1>kabu-auto</h1>
+  <div class="modebadge"><span id="mode" class="badge">…</span></div>
+  <a href="#home" data-p="home">ホーム<span class="n" id="nHome"></span></a>
+  <a href="#chart" data-p="chart">銘柄とチャート<span class="n" id="nChart"></span></a>
+  <a href="#hold" data-p="hold">保有と注文<span class="n" id="nHold"></span></a>
+  <a href="#verify" data-p="verify">検証する</a>
+  <a href="#import" data-p="import">データ取り込み</a>
+  <a href="#settings" data-p="settings">設定とログ</a>
+</nav>
+<div class="content">
+  <div class="hero" id="hero">
+    <div class="lab">今日の状態</div>
+    <div class="msg" id="heroMsg">読み込み中…</div>
+    <div class="det" id="heroDet"></div>
+    <div class="row">
+      <button class="primary" data-run="collect">今日の収集と判定</button>
+      <button data-run="collect_nofetch">手元のデータで判定だけ</button>
+      <button data-run="morning">朝の確認</button>
+      <button id="refresh">更新</button>
+    </div>
+    <div id="paperNote" class="det"></div>
+  </div>
+
+  <section id="jobBox" hidden>
+    <h2 id="jobTitle">実行結果</h2>
+    <div class="sub" id="jobState"></div>
+    <pre id="jobOut" hidden></pre>
+  </section>
+
+  <div class="page" id="p-home">
+    <div class="cards" id="cards"></div>
+    <section><h2>対応が必要なこと</h2><div class="alerts" id="alerts"></div></section>
+    <section><h2>累積損益の推移（帳簿）</h2><div id="equity" class="empty">まだ記録がありません。</div></section>
+    <section><h2>明日以降の注文（待ち）</h2><div class="scroll" id="pending"></div></section>
+  </div>
+
+  <div class="page" id="p-chart">
+    <section>
+      <h2>銘柄とデータ <span class="sub">（行を押すとチャートが出ます）</span></h2>
+      <div class="scroll" id="symbols"></div>
+    </section>
+    <section>
+      <h2 id="chartTitle">チャート</h2>
+      <div id="chart" class="empty">銘柄の行を押すと、終値と移動平均・売買シグナルが出ます。</div>
+      <div class="legend" id="chartLegend"></div>
+    </section>
+  </div>
+
+  <div class="page" id="p-hold">
+    <section><h2>保有中（帳簿）</h2><div class="scroll" id="positions"></div></section>
+    <section><h2>明日以降の注文（待ち）</h2><div class="scroll" id="pending2"></div></section>
+    <section id="unfilledBox" hidden><h2>要確認: 約定扱いにしなかった注文</h2><div class="scroll" id="unfilled"></div></section>
+  </div>
+
+  <div class="page" id="p-verify">
+    <section>
+      <h2>バックテスト（過去データでの検証）</h2>
+      <div class="row">
+        <label>銘柄 <select id="btCode"></select></label>
+        <label><input type="checkbox" id="btWalk" checked> walk-forward</label>
+        <label><input type="checkbox" id="btGrid"> 総当たり（罠の実演）</label>
+      </div>
+      <div class="row">
+        <button class="primary" id="btRun">バックテスト</button>
+        <button data-run="audit">データの点検（全銘柄）</button>
+      </div>
+      <p class="sub">結果は画面上部の「実行結果」に出ます。</p>
+    </section>
+  </div>
+
+  <div class="page" id="p-import">
+    <section>
+      <h2>過去データ(CSV)の取り込み</h2>
+      <div class="row">
+        <label>銘柄 <input type="text" id="impCode" size="6" placeholder="7203"></label>
+        <input type="file" id="impFile" accept=".csv,text/csv">
+        <button class="primary" id="impRun">取り込む</button>
+      </div>
+      <div id="impResult" class="sub"></div>
+    </section>
+  </div>
+
+  <div class="page" id="p-settings">
+    <div class="two">
+      <section><h2>設定（config.py・読み取りのみ）</h2><div id="settings" class="scroll"></div></section>
+      <section><h2>ログ（末尾）</h2><pre id="log" style="max-height:300px"></pre></section>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const TOKEN = "__TOKEN__";
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = (n, d = 0) => n == null ? "-" : Number(n).toLocaleString("ja-JP", {minimumFractionDigits: d, maximumFractionDigits: d});
+const yen = (n) => n == null ? "-" : (n >= 0 ? "+" : "-") + num(Math.abs(n)) + "円";
+const cls = (n) => n == null ? "" : (n > 0 ? "pos" : (n < 0 ? "neg" : ""));
+
+async function api(path, opts) {
+  const o = Object.assign({headers: {}}, opts || {});
+  o.headers["X-Token"] = TOKEN;
+  const r = await fetch(path, o);
+  let j = {};
+  try { j = await r.json(); } catch (e) {}
+  if (!r.ok) throw new Error(j.error || ("エラー " + r.status));
+  return j;
+}
+
+let state = null, selCode = "", polling = false;
+
+function table(head, rows) {
+  if (!rows.length) return '<div class="empty">なし</div>';
+  return "<table><thead><tr>" + head.map((h) => `<th class="${h[1] || ""}">${esc(h[0])}</th>`).join("") + "</tr></thead><tbody>" + rows.join("") + "</tbody></table>";
+}
+
+function render(s) {
+  state = s;
+  const m = $("#mode");
+  m.textContent = s.mode === "paper" ? "ペーパー（発注しない）" : "実発注モード";
+  m.className = "badge " + (s.mode === "paper" ? "paper" : "live");
+  const L = s.ledger;
+  const al = [];   // {lvl, text, btn, act}
+  if (s.mode !== "paper") al.push({lvl: "bad", text: "config.py が実発注モードです。この画面のペーパー操作は止めています（閲覧・検証は使えます）。実弾の操作は start.py から行ってください。"});
+  if (s.holiday_warning) al.push({lvl: "warn", text: s.holiday_warning, btn: "設定を見る", go: "settings"});
+  const skipped = s.ledger.days.filter((d) => d.skipped.length);
+  if (skipped.length) al.push({lvl: "warn", text: "判定できていない日があります: " + skipped.map((d) => d.date + "（" + d.skipped.join(", ") + "）").join(" / ") + "。データを取り直してから判定し直してください。", btn: "手元のデータで判定だけ", run: "collect_nofetch"});
+  const unc = L.pending.filter((o) => o.uncertain);
+  if (unc.length) al.push({lvl: "bad", text: "注文の結果が不明なものが " + unc.length + " 件あります（二重発注を避けるため再送していません）。証券会社の画面で確認してください。", btn: "注文を見る", go: "hold"});
+  if (L.unfilled.length) al.push({lvl: "warn", text: "約定扱いにしなかった注文が " + L.unfilled.length + " 件あります。", btn: "注文を見る", go: "hold"});
+  const badSyms = s.symbols.filter((y) => !y.rows || y.jump);
+  if (badSyms.length) al.push({lvl: "bad", text: "データに問題がある銘柄: " + badSyms.map((y) => y.code + (y.jump ? "（段差 " + y.jump + "）" : "（データなし）")).join(", ") + "。", btn: "銘柄を見る", go: "chart"});
+  const fewSyms = s.symbols.filter((y) => y.rows && !y.jump && !y.enough);
+  if (fewSyms.length) al.push({lvl: "warn", text: "データが少ない銘柄: " + fewSyms.map((y) => y.code).join(", ") + "。過去データを取り込むと判定できます。", btn: "取り込みへ", go: "import"});
+  window.__alerts = al;
+  $("#alerts").innerHTML = al.length
+    ? al.map((a, i) => `<div class="al ${a.lvl === "bad" ? "bad" : ""}"><div class="t">${esc(a.text)}</div>${a.btn ? `<button data-al="${i}">${esc(a.btn)}</button>` : ""}</div>`).join("")
+    : '<div class="allclear">対応が必要なことはありません。</div>';
+  document.querySelectorAll("[data-al]").forEach((b) => b.addEventListener("click", () => {
+    const a = window.__alerts[+b.dataset.al];
+    if (a.run) run(a.run); else if (a.go) location.hash = "#" + a.go;
+  }));
+
+  // 今日の状態（一文）
+  const buys = L.pending.filter((o) => o.side === "買い").length, sells = L.pending.filter((o) => o.side !== "買い").length;
+  const bad = al.filter((a) => a.lvl === "bad").length;
+  let msg, tone = "ok";
+  if (s.job.running) { msg = "いま「" + s.job.label + "」を実行中です。"; }
+  else if (s.mode !== "paper") { msg = "実発注モードです。この画面では発注しません。"; tone = "bad"; }
+  else if (buys + sells === 0) { msg = "次の注文の予定はありません。"; }
+  else { msg = "次の注文の予定は 買い " + buys + " 件・売り " + sells + " 件です。"; }
+  if (bad) tone = "bad"; else if (al.length && tone === "ok") tone = "warn";
+  $("#heroMsg").textContent = msg;
+  $("#heroDet").textContent = s.today + (s.is_trading_day ? "（営業日）" : "（休場日）") + " ／ 接続先: " + (s.env === "prod" ? "本番" : "検証環境") +
+    (al.length ? " ／ 対応が必要なこと " + al.length + " 件" : " ／ 対応が必要なことはありません");
+  $("#hero").className = "hero " + (tone === "ok" ? "" : tone);
+  $("#nHome").textContent = al.length || "";
+  $("#nHome").className = "n" + (al.length ? " alert" : "");
+  $("#nChart").textContent = badSyms.length + fewSyms.length || "";
+  $("#nChart").className = "n" + (badSyms.length + fewSyms.length ? " alert" : "");
+  $("#nHold").textContent = (L.positions.length + L.pending.length) || "";
+
+  const unreal = L.positions.reduce((a, p) => a + (p.unrealized || 0), 0);
+  $("#cards").innerHTML = [
+    ["累積損益（確定）", `<span class="${cls(L.cumulative_pnl)}">${yen(L.cumulative_pnl)}</span>`],
+    ["含み損益", `<span class="${cls(unreal)}">${yen(unreal)}</span>`],
+    ["保有銘柄", L.positions.length + " 件"],
+    ["待ち注文", L.pending.length + " 件"],
+    ["帳簿の更新", '<span style="font-size:16px">' + esc(L.updated_at || "まだありません") + "</span>"],
+  ].map((c) => `<div class="card"><div class="k">${c[0]}</div><div class="v">${c[1]}</div></div>`).join("");
+
+  $("#positions").innerHTML = table([["銘柄"], ["株数", "num"], ["取得日"], ["取得値", "num"], ["直近終値", "num"], ["含み損益", "num"]],
+    L.positions.map((p) => `<tr><td>${esc(p.code)}</td><td class="num">${num(p.qty)}</td><td>${esc(p.entry_date)}</td><td class="num">${num(p.entry_px, 1)}</td><td class="num">${num(p.last_close, 1)}</td><td class="num ${cls(p.unrealized)}">${yen(p.unrealized)}</td></tr>`));
+
+  const pendingHtml = table([["日付"], ["銘柄"], ["売買"], ["株数", "num"], ["理由"], ["状態"]],
+    L.pending.map((o) => {
+      const st = o.order_id ? "送信済み" : (o.uncertain ? "結果不明・要確認" : (o.send_error ? "見送り・失敗" : "未送信"));
+      return `<tr><td>${esc(o.for_date)}</td><td>${esc(o.code)}</td><td><span class="tag ${o.side === "買い" ? "buy" : "sell"}">${esc(o.side)}</span></td><td class="num">${num(o.qty)}</td><td>${esc(o.reason)}</td><td>${esc(st)}</td></tr>`;
+    }));
+  $("#pending").innerHTML = pendingHtml;
+  $("#pending2").innerHTML = pendingHtml;
+
+  $("#unfilledBox").hidden = !L.unfilled.length;
+  $("#unfilled").innerHTML = table([["日付"], ["銘柄"], ["売買"], ["株数", "num"], ["理由"]],
+    L.unfilled.map((o) => `<tr><td>${esc(o.date)}</td><td>${esc(o.code)}</td><td>${esc(o.side)}</td><td class="num">${num(o.qty)}</td><td>${esc(o.reason)}</td></tr>`));
+
+  $("#symbols").innerHTML = table([["銘柄"], ["行数", "num"], ["期間"], ["直近終値", "num"], ["直近のシグナル"], ["位置"], ["データの状態"]],
+    s.symbols.map((y) => {
+      const sig = y.signal ? `<span class="tag ${y.signal === "買い" ? "buy" : "sell"}">${esc(y.signal)}</span>` : "-";
+      const st = !y.rows ? '<span class="tag bad">データなし</span>' : (y.jump ? `<span class="tag bad">段差 ${esc(y.jump)}</span>` : (!y.enough ? '<span class="tag">少ない</span>' : "OK"));
+      return `<tr class="click ${y.code === selCode ? "sel" : ""}" data-code="${esc(y.code)}"><td>${esc(y.code)}</td><td class="num">${num(y.rows)}</td><td>${y.rows ? esc(y.first) + " 〜 " + esc(y.last) : "-"}</td><td class="num">${num(y.close, 1)}</td><td>${sig}</td><td>${esc(y.trend)}</td><td>${st}</td></tr>`;
+    }));
+  document.querySelectorAll("#symbols tr.click").forEach((tr) => tr.addEventListener("click", () => loadChart(tr.dataset.code)));
+
+  const sel = $("#btCode");
+  const prev = sel.value;
+  sel.innerHTML = s.symbols.map((y) => `<option value="${esc(y.code)}">${esc(y.code)}（${num(y.rows)}行）</option>`).join("");
+  if (prev) sel.value = prev;
+
+  const paperOk = s.mode === "paper";
+  document.querySelectorAll("[data-run^=collect],[data-run=morning]").forEach((b) => { b.disabled = !paperOk || s.job.running; });
+  $("#paperNote").textContent = paperOk ? "" : "config.py が実発注モードのため、ここは使えません。";
+
+  const S = s.settings;
+  $("#settings").innerHTML = table([["項目"], ["値"]], [
+    ["移動平均（短期／長期）", S.short + "日 ／ " + S.long + "日"],
+    ["1回の買いの上限金額", S.budget == null ? "固定 " + S.qty + " 株" : num(S.budget) + " 円"],
+    ["1日の発注上限", S.daily_limit + " 件"],
+    ["対象銘柄", S.symbols + " 銘柄"],
+    ["バックテストのコスト（片道）", "スリッページ " + S.slippage_bps + "bp ＋ 手数料 " + S.fee_bps + "bp"],
+    ["税率（概算表示）", (S.tax_rate * 100).toFixed(3) + "%"],
+  ].map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`));
+
+  const lg = $("#log");
+  lg.textContent = s.log.join("\n") || "（ログはまだありません）";
+  lg.scrollTop = lg.scrollHeight;
+
+  drawEquity(L.days);
+  showJob(s.job);
+}
+
+function path(pts, x, y) {
+  let d = "", pen = false;
+  pts.forEach((v, i) => {
+    if (v == null) { pen = false; return; }
+    d += (pen ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1) + " ";
+    pen = true;
+  });
+  return d;
+}
+
+function loadChart(code) {
+  selCode = code;
+  document.querySelectorAll("#symbols tr.click").forEach((tr) => tr.classList.toggle("sel", tr.dataset.code === code));
+  api("/api/chart?code=" + encodeURIComponent(code)).then(drawChart).catch((e) => { $("#chart").innerHTML = '<div class="empty">' + esc(e.message) + "</div>"; });
+}
+
+function drawChart(d) {
+  $("#chartTitle").textContent = "チャート " + d.code;
+  const n = d.dates.length;
+  if (n < 2) { $("#chart").innerHTML = '<div class="empty">データがありません。過去データを取り込んでください。</div>'; $("#chartLegend").innerHTML = ""; return; }
+  const W = 800, H = 280, P = {l: 56, r: 12, t: 12, b: 26};
+  const vals = d.close.concat(d.ma_s, d.ma_l).filter((v) => v != null);
+  let lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+  const pad = (hi - lo) * 0.06 || 1; lo -= pad; hi += pad;
+  const x = (i) => P.l + (W - P.l - P.r) * i / Math.max(1, n - 1);
+  const y = (v) => P.t + (H - P.t - P.b) * (1 - (v - lo) / (hi - lo));
+  let g = "";
+  for (let k = 0; k <= 4; k++) {
+    const v = lo + (hi - lo) * k / 4, yy = y(v);
+    g += `<line x1="${P.l}" x2="${W - P.r}" y1="${yy}" y2="${yy}" stroke="var(--line)"/><text x="${P.l - 6}" y="${yy + 4}" text-anchor="end" font-size="11" fill="var(--sub)">${num(v, v < 100 ? 1 : 0)}</text>`;
+  }
+  g += `<text x="${P.l}" y="${H - 6}" font-size="11" fill="var(--sub)">${esc(d.dates[0])}</text><text x="${W - P.r}" y="${H - 6}" text-anchor="end" font-size="11" fill="var(--sub)">${esc(d.dates[n - 1])}</text>`;
+  g += `<path d="${path(d.close, x, y)}" fill="none" stroke="var(--c1)" stroke-width="1.4" opacity=".75"/>`;
+  g += `<path d="${path(d.ma_l, x, y)}" fill="none" stroke="var(--c3)" stroke-width="2"/>`;
+  g += `<path d="${path(d.ma_s, x, y)}" fill="none" stroke="var(--c2)" stroke-width="2"/>`;
+  d.signals.forEach((s) => {
+    const cx = x(s.i), cy = y(d.close[s.i]);
+    g += s.side === "買い"
+      ? `<path d="M${cx} ${cy + 4} l-6 10 h12 z" fill="var(--pos)"/>`
+      : `<path d="M${cx} ${cy - 4} l-6 -10 h12 z" fill="var(--neg)"/>`;
+  });
+  $("#chart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.code)} の終値と移動平均">${g}</svg>`;
+  $("#chartLegend").innerHTML = `<span><i style="background:var(--c1)"></i>終値</span><span><i style="background:var(--c2)"></i>短期 ${d.short}日</span><span><i style="background:var(--c3)"></i>長期 ${d.long}日</span><span><span class="pos">▲</span> 買いシグナル</span><span><span class="neg">▼</span> 売りシグナル</span><span>（直近 ${n} 日）</span>`;
+}
+
+function drawEquity(days) {
+  if (days.length < 1) { $("#equity").innerHTML = '<div class="empty">まだ記録がありません。</div>'; return; }
+  const W = 800, H = 200, P = {l: 64, r: 12, t: 12, b: 24};
+  const v = days.map((d) => d.cumulative_pnl);
+  let lo = Math.min(0, Math.min.apply(null, v)), hi = Math.max(0, Math.max.apply(null, v));
+  if (hi === lo) hi = lo + 1;
+  const n = days.length;
+  const x = (i) => P.l + (W - P.l - P.r) * (n === 1 ? 0.5 : i / (n - 1));
+  const y = (val) => P.t + (H - P.t - P.b) * (1 - (val - lo) / (hi - lo));
+  let g = `<line x1="${P.l}" x2="${W - P.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--sub)" stroke-dasharray="4 3"/>`;
+  g += `<text x="${P.l - 6}" y="${y(0) + 4}" text-anchor="end" font-size="11" fill="var(--sub)">0</text>`;
+  g += `<text x="${P.l - 6}" y="${y(hi) + 10}" text-anchor="end" font-size="11" fill="var(--sub)">${num(hi)}</text><text x="${P.l - 6}" y="${y(lo)}" text-anchor="end" font-size="11" fill="var(--sub)">${num(lo)}</text>`;
+  g += `<path d="${path(v, x, y)}" fill="none" stroke="var(--c2)" stroke-width="2"/>`;
+  if (n === 1) g += `<circle cx="${x(0)}" cy="${y(v[0])}" r="3" fill="var(--c2)"/>`;
+  g += `<text x="${P.l}" y="${H - 6}" font-size="11" fill="var(--sub)">${esc(days[0].date)}</text><text x="${W - P.r}" y="${H - 6}" text-anchor="end" font-size="11" fill="var(--sub)">${esc(days[n - 1].date)}</text>`;
+  $("#equity").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="累積損益の推移">${g}</svg>`;
+}
+
+function showJob(j) {
+  if (!j.id) return;
+  $("#jobBox").hidden = false;
+  $("#jobTitle").textContent = "実行結果: " + j.label;
+  $("#jobState").textContent = j.running ? "実行中…" : (j.rc === 0 ? "終了しました（正常）" : "終了しました（終了コード " + j.rc + "。上の出力を確認してください）");
+  const pre = $("#jobOut");
+  pre.hidden = false;
+  pre.textContent = j.lines.join("\n");
+  pre.scrollTop = pre.scrollHeight;
+}
+
+async function poll() {
+  if (polling) return;
+  polling = true;
+  try {
+    for (;;) {
+      const j = await api("/api/job");
+      showJob(j);
+      if (!j.running) break;
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  } finally { polling = false; }
+  refresh();
+}
+
+async function run(name, extra) {
+  try {
+    await api("/api/run", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(Object.assign({name: name}, extra || {}))});
+    document.querySelectorAll("button[data-run],#btRun").forEach((b) => b.disabled = true);
+    poll();
+  } catch (e) { $("#jobBox").hidden = false; $("#jobState").textContent = "実行できませんでした: " + e.message; }
+}
+
+async function refresh() {
+  try { render(await api("/api/state")); }
+  catch (e) { $("#heroMsg").textContent = "状態を読み込めませんでした: " + e.message; $("#hero").className = "hero bad"; }
+}
+
+document.querySelectorAll("[data-run]").forEach((b) => b.addEventListener("click", () => run(b.dataset.run, b.dataset.run === "audit" ? {} : {})));
+$("#btRun").addEventListener("click", () => run("backtest", {code: $("#btCode").value, walk: $("#btWalk").checked, grid: $("#btGrid").checked}));
+$("#refresh").addEventListener("click", refresh);
+$("#impRun").addEventListener("click", async () => {
+  const code = $("#impCode").value.trim(), f = $("#impFile").files[0], out = $("#impResult");
+  if (!code || !f) { out.textContent = "銘柄コードとCSVファイルを選んでください。"; return; }
+  out.textContent = "取り込み中…";
+  try {
+    const r = await api("/api/import?code=" + encodeURIComponent(code), {method: "POST", body: f});
+    out.innerHTML = esc(code + ": " + r.rows + " 行を取り込みました。") + (r.note ? "<br>注意: " + esc(r.note) : "") + r.warnings.map((w) => "<br>警告: " + esc(w)).join("");
+    refresh();
+  } catch (e) { out.textContent = "取り込めませんでした: " + e.message; }
+});
+
+function showPage() {
+  const p = (location.hash || "#home").slice(1);
+  const ok = document.getElementById("p-" + p) ? p : "home";
+  document.querySelectorAll(".page").forEach((el) => el.classList.toggle("on", el.id === "p-" + ok));
+  document.querySelectorAll("nav.side a").forEach((a) => a.classList.toggle("on", a.dataset.p === ok));
+  if (ok === "chart" && !selCode && state && state.symbols.length) loadChart((state.symbols.find((y) => y.rows) || state.symbols[0]).code);
+}
+window.addEventListener("hashchange", showPage);
+showPage();
+refresh().then(showPage);
+setInterval(() => { if (!polling && !document.hidden) refresh(); }, 30000);
+</script>
+</body>
+</html>
