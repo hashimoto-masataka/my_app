@@ -1,0 +1,135 @@
+client:
+  name: basic
+tools: {}
+targets:
+  "CreditStatementApp-debug.exe": ["<CreditStatementApp-debug.exe>"]
+  "CreditStatementApp-debug.module": ["<CreditStatementApp-debug.module>"]
+  "CreditStatementCore-debug.module": ["<CreditStatementCore-debug.module>"]
+  "CreditStatementCoreTests-debug.module": ["<CreditStatementCoreTests-debug.module>"]
+  "CreditStatementPackageTests-debug.test": ["<CreditStatementPackageTests-debug.test>"]
+  "PackageStructure": ["<PackageStructure>"]
+  "main": ["<CreditStatementApp-debug.exe>","<CreditStatementApp-debug.module>","<CreditStatementCore-debug.module>"]
+  "test": ["<CreditStatementApp-debug.exe>","<CreditStatementApp-debug.module>","<CreditStatementCore-debug.module>","<CreditStatementCoreTests-debug.module>","<CreditStatementPackageTests-debug.test>"]
+default: "main"
+nodes:
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Fixtures":
+    tool: copy-tool
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/Fixtures/"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Fixtures/"]
+    description: "Copying /Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/Fixtures"
+
+  "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Info.plist":
+    tool: copy-tool
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/Info.plist"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Info.plist"]
+    description: "Copying /Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/Info.plist"
+
+  "<CreditStatementApp-debug.exe>":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp"]
+    outputs: ["<CreditStatementApp-debug.exe>"]
+
+  "<CreditStatementApp-debug.module>":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/AppModel.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/ContentView.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/CreditStatementApp.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.swiftmodule"]
+    outputs: ["<CreditStatementApp-debug.module>"]
+
+  "<CreditStatementCore-debug.module>":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule"]
+    outputs: ["<CreditStatementCore-debug.module>"]
+
+  "<CreditStatementCoreTests-debug.module>":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/CreditStatementCoreTests.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/resource_bundle_accessor.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.swiftmodule"]
+    outputs: ["<CreditStatementCoreTests-debug.module>"]
+
+  "<CreditStatementPackageTests-debug.test>":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementPackageTests.xctest/Contents/MacOS/CreditStatementPackageTests"]
+    outputs: ["<CreditStatementPackageTests-debug.test>"]
+
+  "C.CreditStatementApp-debug.exe":
+    tool: shell
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/AppModel.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/ContentView.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/CreditStatementApp.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp"]
+    description: "Linking ./.build/arm64-apple-macosx/debug/CreditStatementApp"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-L","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug","-o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp","-module-name","CreditStatementApp","-emit-executable","-Xlinker","-alias","-Xlinker","_CreditStatementApp_main","-Xlinker","_main","-Xlinker","-rpath","-Xlinker","@loader_path","@/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.product/Objects.LinkFileList","-target","arm64-apple-macosx12.0","-Xlinker","-add_ast_path","-Xlinker","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.swiftmodule","-Xlinker","-add_ast_path","-Xlinker","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"]
+
+  "C.CreditStatementApp-debug.module":
+    tool: swift-compiler
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/AppModel.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/ContentView.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/CreditStatementApp.swift","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/AppModel.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/ContentView.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/CreditStatementApp.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.swiftmodule"]
+    executable: "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    module-name: "CreditStatementApp"
+    module-output-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.swiftmodule"
+    import-paths: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug"]
+    temps-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build"
+    objects: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/AppModel.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/ContentView.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementApp.build/CreditStatementApp.swift.o"]
+    other-args: ["-target","arm64-apple-macosx12.0","-swift-version","5","-enable-batch-mode","-index-store-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-g","-j8","-DSWIFT_PACKAGE","-DDEBUG","-module-cache-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-Xfrontend","-entry-point-function-name","-Xfrontend","CreditStatementApp_main","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib"]
+    sources: ["/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/AppModel.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/ContentView.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/CreditStatementApp.swift"]
+    is-library: false
+    enable-whole-module-optimization: false
+    num-threads: 8
+
+  "C.CreditStatementCore-debug.module":
+    tool: swift-compiler
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/CSVImporter.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/Models.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/StatementRepository.swift"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule"]
+    executable: "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    module-name: "CreditStatementCore"
+    module-output-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule"
+    import-paths: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug"]
+    temps-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build"
+    objects: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o"]
+    other-args: ["-target","arm64-apple-macosx12.0","-swift-version","5","-enable-batch-mode","-index-store-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-g","-j8","-DSWIFT_PACKAGE","-DDEBUG","-module-cache-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CreditStatementCore-Swift.h","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib"]
+    sources: ["/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/CSVImporter.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/Models.swift","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/StatementRepository.swift"]
+    is-library: true
+    enable-whole-module-optimization: false
+    num-threads: 8
+
+  "C.CreditStatementCoreTests-debug.module":
+    tool: swift-compiler
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/CreditStatementCoreTests.swift","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/DerivedSources/resource_bundle_accessor.swift","<CreditStatementCoreTests-debug.module-resources>","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/CreditStatementCoreTests.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/resource_bundle_accessor.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.swiftmodule"]
+    executable: "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    module-name: "CreditStatementCoreTests"
+    module-output-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.swiftmodule"
+    import-paths: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug"]
+    temps-path: "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build"
+    objects: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/CreditStatementCoreTests.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/resource_bundle_accessor.swift.o"]
+    other-args: ["-target","arm64-apple-macosx12.0","-swift-version","5","-enable-batch-mode","-index-store-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-g","-j8","-DSWIFT_PACKAGE","-DDEBUG","-module-cache-path","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib"]
+    sources: ["/Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/CreditStatementCoreTests.swift","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/DerivedSources/resource_bundle_accessor.swift"]
+    is-library: true
+    enable-whole-module-optimization: false
+    num-threads: 8
+
+  "C.CreditStatementPackageTests-debug.test":
+    tool: shell
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/CreditStatementCoreTests.swift.o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/resource_bundle_accessor.swift.o"]
+    outputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementPackageTests.xctest/Contents/MacOS/CreditStatementPackageTests"]
+    description: "Linking ./.build/arm64-apple-macosx/debug/CreditStatementPackageTests.xctest/Contents/MacOS/CreditStatementPackageTests"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-L","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug","-o","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementPackageTests.xctest/Contents/MacOS/CreditStatementPackageTests","-module-name","CreditStatementPackageTests","-Xlinker","-bundle","-Xlinker","-rpath","-Xlinker","@loader_path/../../../","@/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementPackageTests.product/Objects.LinkFileList","-target","arm64-apple-macosx12.0","-Xlinker","-add_ast_path","-Xlinker","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.swiftmodule","-Xlinker","-add_ast_path","-Xlinker","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.swiftmodule","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"]
+
+  "CreditStatementCoreTests-debug.module-resources":
+    tool: phony
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Fixtures/","/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatement_CreditStatementCoreTests.bundle/Info.plist"]
+    outputs: ["<CreditStatementCoreTests-debug.module-resources>"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/","/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/","/Users/hashimotomasataka/Desktop/クレジット/Tests/CreditStatementCoreTests/","/Users/hashimotomasataka/Desktop/クレジット/Package.swift","/Users/hashimotomasataka/Desktop/クレジット/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+

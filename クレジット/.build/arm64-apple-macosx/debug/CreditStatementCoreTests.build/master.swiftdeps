@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "ebe605de60c03280a91ecfc700e1a0f6683eb3dc42adb8df8321854ec2f62580"
+build_start_time: [1788683057, 293557167]
+build_end_time: [1788683057, 322585105]
+inputs:
+  ? "/Users/hashimotomasataka/Desktop/\u30AF\u30EC\u30B7\u3099\u30C3\u30C8/.build/arm64-apple-macosx/debug/CreditStatementCoreTests.build/DerivedSources/resource_bundle_accessor.swift"
+  : [1788598563, 420789718]
+  "/Users/hashimotomasataka/Desktop/\u30AF\u30EC\u30B7\u3099\u30C3\u30C8/Tests/CreditStatementCoreTests/CreditStatementCoreTests.swift": [1788599823, 80100536]

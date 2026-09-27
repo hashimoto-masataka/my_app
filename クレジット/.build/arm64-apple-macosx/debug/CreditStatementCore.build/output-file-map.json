@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/master.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/CSVImporter.swift": {
+    "dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.d",
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/CSVImporter.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/Models.swift": {
+    "dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.d",
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/Models.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/StatementRepository.swift": {
+    "dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.d",
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/debug/CreditStatementCore.build/StatementRepository.swiftdeps"
+  }
+}

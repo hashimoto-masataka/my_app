@@ -1,0 +1,22 @@
+{
+  "": {
+    "dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CreditStatementCore.d",
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CreditStatementCore.o",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/master.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/CSVImporter.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CSVImporter.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CSVImporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CSVImporter.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/Models.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/Models.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/Models.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementCore/StatementRepository.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/StatementRepository.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/StatementRepository~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/StatementRepository.swiftdeps"
+  }
+}

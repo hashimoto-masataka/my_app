@@ -1,0 +1,22 @@
+{
+  "": {
+    "dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/CreditStatementApp.d",
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/CreditStatementApp.o",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/master.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/AppModel.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/AppModel.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/AppModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/AppModel.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/ContentView.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/ContentView.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/ContentView.swiftdeps"
+  },
+  "/Users/hashimotomasataka/Desktop/クレジット/Sources/CreditStatementApp/CreditStatementApp.swift": {
+    "object": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/CreditStatementApp.swift.o",
+    "swiftmodule": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/CreditStatementApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementApp.build/CreditStatementApp.swiftdeps"
+  }
+}

@@ -1,0 +1,4 @@
+module CreditStatementCore {
+    header "/Users/hashimotomasataka/Desktop/クレジット/.build/arm64-apple-macosx/release/CreditStatementCore.build/CreditStatementCore-Swift.h"
+    requires objc
+}

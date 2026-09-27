@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "f3cea9b4d13ff86731080fe2392bdc1a204c35d0b05715c11981ef865e6b8ee7"
+build_start_time: [1788683355, 406975984]
+build_end_time: [1788683356, 675479888]
+inputs:
+  "/Users/hashimotomasataka/Desktop/\u30AF\u30EC\u30B7\u3099\u30C3\u30C8/Sources/CreditStatementCore/CSVImporter.swift": [1788598986, 466600894]
+  "/Users/hashimotomasataka/Desktop/\u30AF\u30EC\u30B7\u3099\u30C3\u30C8/Sources/CreditStatementCore/Models.swift": [1788599586, 689378499]
+  "/Users/hashimotomasataka/Desktop/\u30AF\u30EC\u30B7\u3099\u30C3\u30C8/Sources/CreditStatementCore/StatementRepository.swift": [1788598130, 980772495]
